@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!--  Bootstrap css link  -->
+
+  <title th:text="pageTitle"></title>
+</head>
+<body>
+
+<form action="/chel/search" method="get" class="container">
+  <div class="mb-3">
+    <input type="search" id="name" name="name" class="form-control">
+    <button type="submit" class="btn btn-outline-info">
+      Find
+    </button>
+  </div>
+</form>
+
+<div class="container">
+  <div class="row my-5">
+    <div class="col-12 col-md-3 mb-3" th:each="el : ${chels}">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title" th:text="${el.name}"></h5>
+          <h6 class="card-subtitle mb-2 text-muted" th:text="'Nickname: ' + ${el.nickname}"></h6>
+          <p class="card-subtitle mb-2" th:text="'Gender: ' + ${el.gender}"></p>
+          <p class="card-subtitle mb-2" th:text="'Zoomer?: ' + ${el.isZoomer ? 'Yes' : 'Nonono'}"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

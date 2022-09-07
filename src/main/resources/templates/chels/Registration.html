@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--  Bootstrap css link  -->
+    <title th:text="${pageTitle}"></title>
+</head>
+<body>
+
+
+
+<div class="container">
+    <form action="add" method="post">
+        <div class="mb-3">
+            <label for="name">Your name</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Enter the your name">
+        </div>
+        <div class="mb-3">
+            <label for="nickname">Your name</label>
+            <input id="nickname" name="nickname" class="form-control" placeholder="Enter the your nickname">
+        </div>
+        <div class="mb-3">
+            <label for="age">Your age</label>
+            <input type="number" id="age" name="age" class="form-control" placeholder="Enter the your age">
+        </div>
+        <div class="mb-3">
+            <label for="gender">Choose your gender</label>
+            <select class="form-select" id="gender" name="gender" aria-label="Default select example">
+                <option value="Person">Person</option>
+                <option value="Woman moment">Woman moment</option>
+                <option value="Panzerhaubitze 2000">Panzerhaubitze 2000</option>
+            </select>
+        </div>
+        <div>
+            <label for="isZoomer">
+                Zoomerok?
+            </label>
+            <input type="checkbox" name="isZoomer" id="isZoomer"><br/>
+        </div>
+        <button type="submit" class="btn btn-outline-primary mb-3">Sign up</button>
+    </form>
+</div>
+
+<!--  Bootstrap script  -->
+</body>
+</html>

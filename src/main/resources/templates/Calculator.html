@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--  Bootstrap css link  -->
+    <title th:text="${title}"></title>
+</head>
+<body>
+    <div class="container my-5">
+        <div class="container mb-3">
+            <a class="btn btn-outline-success" href="/">Home</a>
+        </div>
+        <form action="/result" method="post" class="container">
+            <div class="mb-3">
+                <label for="first-number-input" class="form-label">Enter the first number</label>
+                <input type="number" name="number1" class="form-control" id="first-number-input" required placeholder="0">
+            </div>
+            <div class="mb-3">
+                <label for="second-number-input" class="form-label">Enter the second number</label>
+                <input type="number" name="number2" class="form-control" id="second-number-input" required placeholder="0">
+            </div>
+            <div class="mb-3">
+                <label for="action" class="form-label">Choose a math action</label>
+                <select name="action" class="form-select" id="action" aria-label="Default select example" required>
+                    <option value="+">Plus</option>
+                    <option value="-">Minus</option>
+                    <option value="*">Multiplication</option>
+                    <option value="/">Division</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-outline-primary">Calculate</button>
+            </div>
+        </form>
+    </div>
+
+    <!--  Bootstrap script  -->
+</body>
+</html>
