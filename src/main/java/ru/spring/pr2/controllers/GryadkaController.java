@@ -3,14 +3,13 @@ package ru.spring.pr2.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.spring.pr2.model.Ovoshi;
 import ru.spring.pr2.repo.GryadkaRepository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/gryadka")
@@ -38,6 +37,34 @@ public class GryadkaController {
         return "gryadka/AllOvoshi";
     }
 
+    @GetMapping("/{id}")
+    public String read (@PathVariable("id") Long id, Model model) {
+        Optional<Ovoshi> Ovoshi = gryadkaRepository.findById(id);
+        ArrayList<Ovoshi> arrayList = new ArrayList<>();
+        Ovoshi.ifPresent(arrayList::add);
+        model.addAttribute("Ovoshi", arrayList);
+        return "gryadka/Ovosh";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete (@PathVariable("id") Long id, Model model) {
+        gryadkaRepository.deleteById(id);
+        return "redirect:/gryadka/all";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit (@PathVariable("id") Long id,
+                        Model model) {
+        if (!gryadkaRepository.existsById(id)) {
+            return "redirect:/Ovoshi/all";
+        }
+        Optional<Ovoshi> user = gryadkaRepository.findById(id);
+        ArrayList<Ovoshi> arrayList = new ArrayList<>();
+        user.ifPresent(arrayList::add);
+        model.addAttribute("Ovoshi", arrayList);
+        return "gryadka/EditOvosh";
+    }
+
     //    Post mappings
     @PostMapping("/add")
     public String add(@RequestParam("name") String name,
@@ -47,6 +74,23 @@ public class GryadkaController {
 
         Ovoshi newOvosh = new Ovoshi(name, color, IQ);
         gryadkaRepository.save(newOvosh);
+        return "redirect:/gryadka/all";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String edit (@PathVariable("id") Long id,
+                        @RequestParam("name") String name,
+                        @RequestParam("color") String color,
+                        @RequestParam("IQ") Integer IQ,
+                        Model model) {
+
+        Ovoshi ovosh = gryadkaRepository.findById(id).orElseThrow();
+
+        ovosh.setName(name);
+        ovosh.setColor(color);
+        ovosh.setIq(IQ);
+
+        gryadkaRepository.save(ovosh);
         return "redirect:/gryadka/all";
     }
 
