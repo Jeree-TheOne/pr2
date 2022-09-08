@@ -45,7 +45,7 @@ public class ChelController {
                       @RequestParam("nickname") String nickname,
                       @RequestParam("gender") String gender,
                       @RequestParam("age") Integer age,
-                      @RequestParam("isZoomer") Boolean isZoomer,
+                      @RequestParam(value = "isZoomer", defaultValue = "0") Boolean isZoomer,
                       Model model) {
 
         Chel newUser = new Chel(name, nickname, gender, age, isZoomer);

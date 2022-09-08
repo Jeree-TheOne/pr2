@@ -54,7 +54,7 @@ public class Ovoshi {
         return this.IQ;
     }
 
-    public void setWaterTemperature(Integer iq) {
+    public void setIq(Integer iq) {
         this.IQ = iq;
     }
 }

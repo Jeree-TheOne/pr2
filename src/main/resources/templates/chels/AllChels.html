@@ -7,7 +7,7 @@
   <title th:text="pageTitle"></title>
 </head>
 <body>
-
+<div th:insert="fragment/header :: defaultHeader"></div>
 <form action="/chel/search" method="get" class="container">
   <div class="mb-3">
     <input type="search" id="name" name="name" class="form-control">
