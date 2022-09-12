@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!--  Bootstrap css link  -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<div th:insert="fragment/header :: defaultHeader"></div>
+<form action="/chel/all" method="get">
+  <button  type="submit" class="btn btn-primary mt-3">
+    Go beck
+  </button>
+</form>
+<div class="container">
+  <div class="row my-5">
+    <div class="col-12 col-md-3 mb-3" th:each="el : ${Chel}">
+      <div class="card">
+        <div class="card-body">
+          <p class="card-subtitle mb-2" th:text="'ID: ' + ${el.id}"></p>
+          <h5 class="card-title" th:text="${el.name}"></h5>
+          <p class="card-text" th:text="'Nickname: ' + ${el.nickname}"></p>
+          <p class="card-subtitle mb-2" th:text="'Gender: ' + ${el.gender}"></p>
+          <p class="card-subtitle mb-2" th:text="'Gender: ' + ${el.age}"></p>
+          <p class="card-subtitle mb-2" th:text="'Zoomerok?: ' + ${el.isZoomer}"></p>
+        </div>
+        <div class="btn-group d-flex justify-content-around mb-3">
+          <form th:action="'/chel/edit/' + ${el.id}" method="get">
+            <button  type="submit" class="btn btn-primary mt-3">
+              Edit
+            </button>
+          </form>
+          <form th:action="'/chel/delete/' + ${el.id}" method="get">
+            <button  type="submit" class="btn btn-danger mt-3">
+              Delete
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
