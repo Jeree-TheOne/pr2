@@ -3,14 +3,14 @@ package ru.spring.pr2.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.spring.pr2.model.Chel;
+import ru.spring.pr2.model.Ovoshi;
 import ru.spring.pr2.repo.ChelRepository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/chel")
@@ -50,6 +50,55 @@ public class ChelController {
 
         Chel newUser = new Chel(name, nickname, gender, age, isZoomer);
         chelRepository.save(newUser);
+        return "redirect:/chel/all";
+    }
+
+    @GetMapping("/{id}")
+    public String read (@PathVariable("id") Long id, Model model) {
+        Optional<Chel> Chels = chelRepository.findById(id);
+        ArrayList<Chel> arrayList = new ArrayList<>();
+        Chels.ifPresent(arrayList::add);
+        model.addAttribute("Chel", arrayList);
+        return "chels/Chel";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete (@PathVariable("id") Long id, Model model) {
+        chelRepository.deleteById(id);
+        return "redirect:/chel/all";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit (@PathVariable("id") Long id,
+                        Model model) {
+        if (!chelRepository.existsById(id)) {
+            return "redirect:/chel/all";
+        }
+        Optional<Chel> user = chelRepository.findById(id);
+        ArrayList<Chel> arrayList = new ArrayList<>();
+        user.ifPresent(arrayList::add);
+        model.addAttribute("Chel", arrayList);
+        return "chels/EditChel";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String edit (@PathVariable("id") Long id,
+                        @RequestParam("name") String name,
+                        @RequestParam("nickname") String nickname,
+                        @RequestParam("gender") String gender,
+                        @RequestParam("age") Integer age,
+                        @RequestParam(value = "isZoomer", defaultValue = "0") Boolean isZoomer,
+                        Model model) {
+
+        Chel chel = chelRepository.findById(id).orElseThrow();
+
+        chel.setName(name);
+        chel.setNickname(nickname);
+        chel.setGender(gender);
+        chel.setAge(age);
+        chel.setIsZoomer(isZoomer);
+
+        chelRepository.save(chel);
         return "redirect:/chel/all";
     }
 
