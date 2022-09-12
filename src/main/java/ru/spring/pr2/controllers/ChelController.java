@@ -3,11 +3,13 @@ package ru.spring.pr2.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.spring.pr2.model.Chel;
 import ru.spring.pr2.model.Ovoshi;
 import ru.spring.pr2.repo.ChelRepository;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,8 +28,7 @@ public class ChelController {
     }
 
     @GetMapping("/registration")
-    public String reg(Model model) {
-        model.addAttribute("pageTitle", "Registration");
+    public String reg(Chel chel, Model model) {
         return "chels/Registration";
     }
 
@@ -41,15 +42,13 @@ public class ChelController {
 
 //    Post mappings
     @PostMapping("/add")
-    public String add(@RequestParam("name") String name,
-                      @RequestParam("nickname") String nickname,
-                      @RequestParam("gender") String gender,
-                      @RequestParam("age") Integer age,
-                      @RequestParam(value = "isZoomer", defaultValue = "0") Boolean isZoomer,
+    public String add(@Valid Chel newChel,
+                      BindingResult bindingResult,
                       Model model) {
 
-        Chel newUser = new Chel(name, nickname, gender, age, isZoomer);
-        chelRepository.save(newUser);
+        if (bindingResult.hasErrors())
+            return "chels/Registration";
+        chelRepository.save(newChel);
         return "redirect:/chel/all";
     }
 
@@ -69,36 +68,31 @@ public class ChelController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit (@PathVariable("id") Long id,
-                        Model model) {
-        if (!chelRepository.existsById(id)) {
-            return "redirect:/chel/all";
+    public String edit(
+            @PathVariable("id") Long id,
+            Model model)
+    {
+        if(!chelRepository.existsById(id))
+        {
+            return "redirect:/films/";
         }
-        Optional<Chel> user = chelRepository.findById(id);
+        Optional<Chel> newsList = chelRepository.findById(id);
         ArrayList<Chel> arrayList = new ArrayList<>();
-        user.ifPresent(arrayList::add);
-        model.addAttribute("Chel", arrayList);
+        newsList.ifPresent(arrayList::add);
+        model.addAttribute("Chel", arrayList.get(0));
         return "chels/EditChel";
     }
 
     @PostMapping("/edit/{id}")
     public String edit (@PathVariable("id") Long id,
-                        @RequestParam("name") String name,
-                        @RequestParam("nickname") String nickname,
-                        @RequestParam("gender") String gender,
-                        @RequestParam("age") Integer age,
-                        @RequestParam(value = "isZoomer", defaultValue = "0") Boolean isZoomer,
-                        Model model) {
+                        @ModelAttribute("Chel") @Valid Chel newChel, BindingResult bindingResult) {
+        if (!chelRepository.existsById(id))
+            return "redirect:/chel/all";
+        if (bindingResult.hasErrors())
+            return "chels/EditChel";
 
-        Chel chel = chelRepository.findById(id).orElseThrow();
-
-        chel.setName(name);
-        chel.setNickname(nickname);
-        chel.setGender(gender);
-        chel.setAge(age);
-        chel.setIsZoomer(isZoomer);
-
-        chelRepository.save(chel);
+        newChel.setId(id);
+        chelRepository.save(newChel);
         return "redirect:/chel/all";
     }
 

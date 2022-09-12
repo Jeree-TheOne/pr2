@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.*;
 
 @Entity
 public class Chel {
@@ -12,10 +13,25 @@ public class Chel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
+    @NotBlank(message = "Поле не должно быть пустым")
+    @Size(message = "Lyaaa chel", min = 5, max = 100)
+    String name;
 
-    String name, nickname, gender;
+    @NotBlank(message = "Поле не должно быть пустым")
+    @Size(message = "Lyaaa chel", min = 5, max = 100)
+    String nickname;
+
+    @NotBlank(message = "Поле не должно быть пустым")
+    @Size(message = "Lyaaa chel", min = 5, max = 100)
+    String gender;
+
+    @NotNull(message = "Поле не должно быть пустым")
+    @Min(message = "Lyaaa chel", value = 0)
+    @Max(message = "Lyaaa chel", value = 100)
     Integer age;
+
     Boolean isZoomer;
+
 
     public Chel(String name, String nickname, String gender, Integer age, Boolean isZoomer) {
         this.name = name;
