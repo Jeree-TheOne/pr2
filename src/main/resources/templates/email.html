@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<form th:action="${'/email/add/'}" method="post">
+  <input type="text" name="name" placeholder="Введите имя человека">
+  <input type="text" name="surname" placeholder="Введите фамилию человека">
+  <input type="text" name="lastname" placeholder="Введите отчество человека">
+
+  <select  name="email_name">
+    <div th:each="el : ${email}">
+      <option th:text="${el.name}"></option>
+    </div>
+  </select>
+  <br>
+  <button type="submit">Добавить человека</button>
+</form>
+</body>
+</html>
