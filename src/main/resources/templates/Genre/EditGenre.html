@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!--  Bootstrap css link  -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <title th:text="${pageTitle}"></title>
+</head>
+<body>
+
+
+<div th:insert="fragment/header :: defaultHeader"></div>
+<div class="container" th:each="el : ${allModels}">
+  <form th:action="'/genre/edit/' + ${el.id}" method="post" th:object="${allModels}">
+    <div class="mb-3">
+      <label for="genreName">Название жанра:</label>
+      <input type="text" id="genreName" name="genreName" class="form-control" placeholder="Введите название жанра" th:value="${el.genreName}" th:field="*{genreName}">
+      <div th:if="${#fields.hasErrors('genreName')}" th:errors = "*{genreName}"></div>
+    </div>
+    <button type="submit" class="btn btn-outline-info">Сохранить</button>
+  </form>
+</div>
+</body>
+</html>

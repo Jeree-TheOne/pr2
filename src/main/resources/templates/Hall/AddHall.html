@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!--  Bootstrap css link  -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <title th:text="${pageTitle}"></title>
+</head>
+<body>
+
+
+<div th:insert="fragment/header :: defaultHeader"></div>
+<div class="container">
+  <form action="add" method="post" th:object="${hall}">
+    <div class="mb-3">
+      <input type="number" id="hallNumber" name="hallNumber" class="form-control" placeholder="Введите номер зала" th:field="*{hallNumber}">
+      <div th:if="${#fields.hasErrors('hallNumber')}" th:errors = "*{hallNumber}"></div>
+    </div>
+    <div class="mb-3">
+      <input type="number" id="spotsAmount" name="spotsAmount" class="form-control" placeholder="Введите кол-во мест" th:field="*{spotsAmount}">
+      <div th:if="${#fields.hasErrors('spotsAmount')}" th:errors = "*{spotsAmount}"></div>
+    </div>
+    <div class="mb-3">
+      <label for="hall_type_id">Тип зала:</label>
+      <select name="hall_type_id" id="hall_type_id">
+        <div th:each="el : ${hallTypes}">
+          <option th:value="${el.id}" th:text="${el.hallTypeName}"></option>
+        </div>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="theatre_id">Театр:</label>
+      <select name="theatre_id" id="theatre_id">
+        <div th:each="el : ${theatres}">
+          <option th:value="${el.id}" th:text="${el.address}"></option>
+        </div>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-outline-info">Добавить</button>
+  </form>
+</div>
+</body>
+</html>

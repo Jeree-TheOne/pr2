@@ -4,19 +4,28 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-//@Table(name = "user_table")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long id;
 
     private String username;
+
     private String password;
+
+    private Integer balance;
+
+    public Integer getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Integer balance) {
+        this.balance = balance;
+    }
+
     private boolean active;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
@@ -26,11 +35,11 @@ public class User {
 
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
